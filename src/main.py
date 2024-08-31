@@ -8,7 +8,7 @@ user_input = input("Enter City Name: ")
 
 # Make an API request to get the URL
 weather_data = requests.get(
-    f"https://api.openweathermap.org/data/2.5/weather?appid={API_KEY}&q={user_input}")
+    f"https://api.openweathermap.org/data/2.5/weather?appid={API_KEY}&q={user_input}&units=imperial")
 
-# Print the results
-print(weather_data)
+# Print the results in JSON format
+print(weather_data.json())
