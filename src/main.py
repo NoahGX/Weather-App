@@ -15,17 +15,17 @@ def fetch_weather(API_KEY, user_input):
 
     # If there are no errors, return the data
     if data['cod'] == '404':
-        return 'error'
+        return None, data['message']
     else:
-        return data
+        return data, None
 
 # Define function to display the weather data
-def display_weather(weather_data):
+def display_weather(weather_data, error):
     # Handle errors in the API request
-    if 'error' in weather_data:
-        console.print("Invalid City Name.", style="bold red")
+    if error:
+        console.print(error, style="bold red")
         return
-    else: 
+    else:
         # If there are no errors, print the data
         console.print(weather_data)
 
@@ -38,10 +38,10 @@ def main():
     user_input = input("Enter City Name: ")
     
     # Call function to make an API request for the URL
-    weather_data = fetch_weather(API_KEY, user_input)
+    weather_data, error = fetch_weather(API_KEY, user_input)
 
     # Call function to display the weather data
-    display_weather(weather_data)
+    display_weather(weather_data, error)
 
 # Main function
 if __name__ == "__main__":
