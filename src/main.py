@@ -5,7 +5,7 @@ from rich.console import Console
 console = Console()
 
 # Define validation function
-def weather_data(API_KEY, user_input):
+def weather(API_KEY, user_input):
     # Make an API request to get the URL
     data = requests.get(
         f"https://api.openweathermap.org/data/2.5/weather?appid={API_KEY}&q={user_input}&units=imperial")
@@ -15,9 +15,19 @@ def weather_data(API_KEY, user_input):
 
     # Return weather data
     if data['cod'] == '404':
-        return None, "Invalid City Name."
+        return 'error'
     else:
-        return data, None
+        return data
+
+# Define function to display weather data
+def display(weather_data):
+    # Handle errors in the API request
+    if 'error' in weather_data:
+        console.print("Invalid City Name.", style="bold red")
+        return
+    else: 
+        # If there are no errors, print data
+        console.print(weather_data)
 
 # Define main function
 def main():
@@ -27,16 +37,11 @@ def main():
     # Prompt the user to enter a city name of their choosing
     user_input = input("Enter City Name: ")
     
-    # Make an API request to get the URL
-    weather, error = weather_data(API_KEY, user_input)
+    # Make an API request to get the URL for weather data
+    weather_data = weather(API_KEY, user_input)
 
-    # Handle errors in the API request
-    if error:
-        console.print(error, style="bold red")
-        return
-    else: 
-        # If there are no errors, print data
-        console.print(weather)
+    # Display the weather data
+    display(weather_data)
 
 # Main function
 if __name__ == "__main__":
