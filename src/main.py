@@ -4,44 +4,44 @@ from rich.console import Console
 # Initialize console
 console = Console()
 
-# Define validation function
-def weather(API_KEY, user_input):
-    # Make an API request to get the URL
+# Define function to fetch the weather data
+def fetch_weather(API_KEY, user_input):
+    # Make an API request for the URL
     data = requests.get(
         f"https://api.openweathermap.org/data/2.5/weather?appid={API_KEY}&q={user_input}&units=imperial")
     
     # Ensure data is in JSON
     data = data.json()
 
-    # Return weather data
+    # If there are no errors, return the data
     if data['cod'] == '404':
         return 'error'
     else:
         return data
 
-# Define function to display weather data
-def display(weather_data):
+# Define function to display the weather data
+def display_weather(weather_data):
     # Handle errors in the API request
     if 'error' in weather_data:
         console.print("Invalid City Name.", style="bold red")
         return
     else: 
-        # If there are no errors, print data
+        # If there are no errors, print the data
         console.print(weather_data)
 
 # Define main function
 def main():
-    # Read the API Key from a text file
+    # Read the API Key from a text file for current weather data
     API_KEY = open("../data/api.txt", "r").read()
- 
+
     # Prompt the user to enter a city name of their choosing
     user_input = input("Enter City Name: ")
     
-    # Make an API request to get the URL for weather data
-    weather_data = weather(API_KEY, user_input)
+    # Call function to make an API request for the URL
+    weather_data = fetch_weather(API_KEY, user_input)
 
-    # Display the weather data
-    display(weather_data)
+    # Call function to display the weather data
+    display_weather(weather_data)
 
 # Main function
 if __name__ == "__main__":
