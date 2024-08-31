@@ -30,12 +30,12 @@ def main():
     # Make an API request to get the URL
     weather, error = weather_data(API_KEY, user_input)
 
-    # Check if an error 
+    # Handle errors in the API request
     if error:
         console.print(error, style="bold red")
         return
     else: 
-        # Print data
+        # If there are no errors, print data
         console.print(weather)
 
 # Main function
