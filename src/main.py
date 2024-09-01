@@ -29,6 +29,11 @@ def display_weather(weather_data, error):
         # If there are no errors, print the data
         console.print(f"displaying data...", style="bold green")
         console.print(f"The current weather in {weather_data['name']} reads: {weather_data['weather'][0]['main']}")
+        console.print(f"The temperature is: {weather_data['main']['temp']}")
+        console.print(f"It currently feels like: {weather_data['main']['feels_like']}")
+        console.print(f"The pressure is: {weather_data['main']['pressure']}")
+        console.print(f"The humidity is: {weather_data['main']['humidity']}")
+        console.print(f"The wind speed is: {weather_data['wind']['speed']} m/s, with gusts of {weather_data['wind']['speed']} m/s")
 
 # Define main function
 def main():
