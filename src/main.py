@@ -31,6 +31,17 @@ def display_weather(weather_data, error):
     # Convert datetime objects to strings
     date = dateTime.strftime("%A, %b %-d %Y")
     time = dateTime.strftime("%I:%M:%S %p")
+
+    # Assign variables for cleaner code
+    city = weather_data['name']
+    weather = weather_data['weather'][0]['main']
+    description = weather_data['weather'][0]['description']
+    temperature = round(weather_data['main']['temp'])
+    feels_like = round(weather_data['main']['feels_like'])
+    pressure = weather_data['main']['pressure']
+    humidity = weather_data['main']['humidity']
+    visibility = weather_data['visibility']
+    wind_speed = weather_data['wind']['speed']
     
     # Handle errors
     if error:
@@ -38,16 +49,16 @@ def display_weather(weather_data, error):
         return
     else:
         # If there are no errors, print data
-        console.print(f"[bold]{weather_data['name']}[/bold] Local Date: [bold green]{date}[/bold green]")
-        console.print(f"[bold]{weather_data['name']}[/bold] Local Time: [bold green]{time}[/bold green]")
-        console.print(f"\tCurrent Weather: "f"[bold cyan]{weather_data['weather'][0]['main']}[/bold cyan]")
-        console.print(f"\tDescription: [bold cyan]{weather_data['weather'][0]['description']}[/bold cyan]")
-        console.print(f"\tTemperature: {round(weather_data['main']['temp'])} ºF")
-        console.print(f"\tIt Feels Like: {round(weather_data['main']['feels_like'])} ºF")
-        console.print(f"\tPressure: {weather_data['main']['pressure']} hPa")
-        console.print(f"\tHumidity: {weather_data['main']['humidity']} %")
-        console.print(f"\tVisibility: {weather_data['visibility']} m")
-        console.print(f"\tWind Speed: {weather_data['wind']['speed']} mph")
+        console.print(f"[bold]{city}[/bold] Local Date: [bold green]{date}[/bold green]")
+        console.print(f"[bold]{city}[/bold] Local Time: [bold green]{time}[/bold green]")
+        console.print(f"\tCurrent Weather: "f"[bold cyan]{weather}[/bold cyan]")
+        console.print(f"\tDescription: [bold cyan]{description}[/bold cyan]")
+        console.print(f"\tTemperature: {temperature} ºF")
+        console.print(f"\tIt Feels Like: {feels_like} ºF")
+        console.print(f"\tPressure: {pressure} hPa")
+        console.print(f"\tHumidity: {humidity} %")
+        console.print(f"\tVisibility: {visibility} m")
+        console.print(f"\tWind Speed: {wind_speed} mph")
 
 # Define main function
 def main():
