@@ -27,7 +27,8 @@ def display_weather(weather_data, error):
         return
     else:
         # If there are no errors, print the data
-        console.print(weather_data)
+        console.print(f"displaying data...", style="bold green")
+        console.print(f"The current weather in {weather_data['name']} reads: {weather_data['weather'][0]['main']}")
 
 # Define main function
 def main():
