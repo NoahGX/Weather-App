@@ -33,7 +33,7 @@ def display_weather(weather_data, error):
         console.print(f"It currently feels like: {weather_data['main']['feels_like']}")
         console.print(f"The pressure is: {weather_data['main']['pressure']}")
         console.print(f"The humidity is: {weather_data['main']['humidity']}")
-        console.print(f"The wind speed is: {weather_data['wind']['speed']} m/s, with gusts of {weather_data['wind']['speed']} m/s")
+        console.print(f"The wind speed is: {weather_data['wind']['speed']} m/s, with gusts of {weather_data['wind']['gust']} m/s")
 
 # Define main function
 def main():
