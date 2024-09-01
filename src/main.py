@@ -25,25 +25,29 @@ def fetch_weather(API_KEY, user_input):
 # Define function to display the weather data
 def display_weather(weather_data, error):
     # Define the date and time
-    dateTime = dt.datetime.fromtimestamp(weather_data['dt'] + weather_data['timezone'])
+    dateTime = dt.datetime.fromtimestamp(weather_data['dt'], dt.timezone.utc)
+    dateTime = dateTime + dt.timedelta(seconds=weather_data['timezone'])
 
+    # Convert datetime objects to strings
+    date = dateTime.strftime("%A, %b %-d %Y")
+    time = dateTime.strftime("%I:%M:%S %p")
+    
     # Handle errors
     if error:
         console.print(error, style="bold red")
         return
     else:
         # If there are no errors, print data
-        console.print(f"displaying data...", style="bold green")
-        console.print(f"The current weather in [bold]{weather_data['name']}[/bold] reads: "
-                      f"[cyan bold]{weather_data['weather'][0]['main']}[/cyan bold], "
-                      f"[cyan bold]{weather_data['weather'][0]['description']}[/cyan bold]")
-        console.print(f"The temperature is: {round(weather_data['main']['temp'])} ºF")
-        console.print(f"It currently feels like: {round(weather_data['main']['feels_like'])} ºF")
-        console.print(f"The pressure is: {weather_data['main']['pressure']} hPa")
-        console.print(f"The humidity is: {weather_data['main']['humidity']} %")
-        console.print(f"The visibility is: {weather_data['visibility']} m")
-        console.print(f"The wind speed is: {weather_data['wind']['speed']} mph")
-        console.print(f"The Coordinated Universal Time (UTC) of this data is: {dateTime}")
+        console.print(f"[bold]{weather_data['name']}[/bold] Local Date: [bold green]{date}[/bold green]")
+        console.print(f"[bold]{weather_data['name']}[/bold] Local Time: [bold green]{time}[/bold green]")
+        console.print(f"\tCurrent Weather: "f"[bold cyan]{weather_data['weather'][0]['main']}[/bold cyan]")
+        console.print(f"\tDescription: [bold cyan]{weather_data['weather'][0]['description']}[/bold cyan]")
+        console.print(f"\tTemperature: {round(weather_data['main']['temp'])} ºF")
+        console.print(f"\tIt Feels Like: {round(weather_data['main']['feels_like'])} ºF")
+        console.print(f"\tPressure: {weather_data['main']['pressure']} hPa")
+        console.print(f"\tHumidity: {weather_data['main']['humidity']} %")
+        console.print(f"\tVisibility: {weather_data['visibility']} m")
+        console.print(f"\tWind Speed: {weather_data['wind']['speed']} mph")
 
 # Define main function
 def main():
