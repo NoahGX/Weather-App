@@ -25,7 +25,7 @@ def fetch_weather(API_KEY, user_input):
 # Define function to display the weather data
 def display_weather(weather_data, error):
     # Define the date and time
-    dateTime = dt.datetime.fromtimestamp(weather_data['dt'], dt.UTC)
+    dateTime = dt.datetime.fromtimestamp(weather_data['dt'] + weather_data['timezone'])
 
     # Handle errors
     if error:
