@@ -28,11 +28,12 @@ def display_weather(weather_data, error):
     else:
         # If there are no errors, print the data
         console.print(f"displaying data...", style="bold green")
-        console.print(f"The current weather in {weather_data['name']} reads: {weather_data['weather'][0]['main']}")
+        console.print(f"The current weather in {weather_data['name']} reads: [cyan bold]{weather_data['weather'][0]['main']}[/cyan bold]")
         console.print(f"The temperature is: {weather_data['main']['temp']} ºF")
         console.print(f"It currently feels like: {weather_data['main']['feels_like']} ºF")
         console.print(f"The pressure is: {weather_data['main']['pressure']} hPa")
         console.print(f"The humidity is: {weather_data['main']['humidity']} %")
+        console.print(f"The visibility is: {weather_data['visibility']} m")
         console.print(f"The wind speed is: {weather_data['wind']['speed']} mph")
 
 # Define main function
