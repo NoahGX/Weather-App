@@ -48,40 +48,36 @@ def display_weather(weather_data):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     weather_data = None
-    error_message = None
+    err_message = None
     try:
         # Read the API Key from a text file
         with open("../data/api.txt", "r") as file:
             API_KEY = file.read()
     except FileNotFoundError as file_err:
         # Return an error if the file is not found
-        error_message = f"File Error: {file_err}"
-        return render_template('index.html', error=error_message)
+        err_message = f"File Error: {file_err}"
     
+    # Check if request method is POST
     if request.method == 'POST':
         user_input = request.form['city']
         try:
             # Fetch weather data for the given city using the API Key
             weather_data = fetch_weather(API_KEY, user_input)
 
-            # Handle Errors and Exceptions that may occur
+            # Handle Errors that may occur
             if weather_data['cod'] == '404':
-                error_message = f"API Error: {weather_data['message']}"
-                return render_template('index.html', error=error_message)
+                err_message = f"API Error: {weather_data['message']}"
             else:
                 # If there are no errors, display the weather data
                 weather_data = display_weather(weather_data)
-                return render_template('index.html', weather_data=weather_data)
-
-        except requests.exceptions.RequestException as net_err:
-            error_message = f"Network Error: {net_err}"
-            return render_template('index.html', error=error_message)
-        except Exception as err:
-            error_message = f"Error: {err}"
-            return render_template('index.html', error=error_message)
         
-    # return render_template('index.html', weather_data=weather_data, error=error_message)
-    return render_template('index.html')
+        # Handle Exceptions that may occur
+        except requests.exceptions.RequestException as net_err:
+            err_message = f"Network Error: {net_err}"
+        except Exception as err:
+            err_message = f"Error: {err}"
+    
+    return render_template('index.html', data=weather_data, error=err_message)
 
 # Main function
 if __name__ == "__main__":
