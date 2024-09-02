@@ -1,5 +1,7 @@
 import requests
 from rich.console import Console
+from rich.table import Table
+from rich import box
 import datetime as dt
 
 # Initialize console
@@ -16,14 +18,11 @@ def fetch_weather(API_KEY, user_input):
     # Parse the JSON response
     data_response = data_response.json()
 
-    # Proceed if there are no errors in the response
-    if data_response['cod'] == '404':
-        return None, data_response['message']
-    else:
-        return data_response, None
+    # Return the data response
+    return data_response
 
 # Define function to display the weather data
-def display_weather(weather_data, error):
+def display_weather(weather_data):
     # Define the date and time
     dateTime = dt.datetime.fromtimestamp(weather_data['dt'], dt.timezone.utc)
     dateTime = dateTime + dt.timedelta(seconds=weather_data['timezone'])
@@ -42,38 +41,49 @@ def display_weather(weather_data, error):
     humidity = weather_data['main']['humidity']
     visibility = weather_data['visibility']
     wind_speed = weather_data['wind']['speed']
-    
-    # Handle errors
-    if error:
-        console.print(error, style="bold red")
-        return
-    else:
-        # If there are no errors, print data
-        console.print(f"[bold]{city}[/bold] Local Date: [bold green]{date}[/bold green]")
-        console.print(f"[bold]{city}[/bold] Local Time: [bold green]{time}[/bold green]")
-        console.print(f"\tCurrent Weather: "f"[bold cyan]{weather}[/bold cyan]")
-        console.print(f"\tDescription: [bold cyan]{description}[/bold cyan]")
-        console.print(f"\tTemperature: {temperature} ºF")
-        console.print(f"\tIt Feels Like: {feels_like} ºF")
-        console.print(f"\tPressure: {pressure} hPa")
-        console.print(f"\tHumidity: {humidity} %")
-        console.print(f"\tVisibility: {visibility} m")
-        console.print(f"\tWind Speed: {wind_speed} mph")
+
+    # If there are no errors, print data
+    console.print(f"[bold]{city}[/bold] Local Date: [bold green]{date}[/bold green]")
+    console.print(f"[bold]{city}[/bold] Local Time: [bold green]{time}[/bold green]")
+    console.print(f"\tCurrent Weather: "f"[bold cyan]{weather}[/bold cyan]")
+    console.print(f"\tDescription: [bold cyan]{description}[/bold cyan]")
+    console.print(f"\tTemperature: {temperature} ºF")
+    console.print(f"\tIt Feels Like: {feels_like} ºF")
+    console.print(f"\tPressure: {pressure} hPa")
+    console.print(f"\tHumidity: {humidity} %")
+    console.print(f"\tVisibility: {visibility} m")
+    console.print(f"\tWind Speed: {wind_speed} mph")
+    console.print(table)
 
 # Define main function
 def main():
-    # Read the API Key from a text file
-    with open("../data/api.txt", "r") as file:
-        API_KEY = file.read()
+    try:
+        # Read the API Key from a text file
+        with open("../data/api.txt", "r") as file:
+            API_KEY = file.read()
 
-    # Prompt the user to enter a city name of their choosing
-    user_input = input("Enter City Name: ")
-    
-    # Call function to make an API request for weather data
-    weather_data, error = fetch_weather(API_KEY, user_input)
+        # Prompt the user to enter a city name of their choosing
+        user_input = input("Enter City Name: ")
+        
+        # Call function to make an API request for weather data
+        weather_data = fetch_weather(API_KEY, user_input)
 
-    # Call the function to display the weather data
-    display_weather(weather_data, error)
+        # Error Handling
+        if weather_data['cod'] == '404':
+            raise ValueError(weather_data['message'])
+
+    except FileNotFoundError as file_err:
+        console.print(f"File Error: {file_err}", style="bold red")
+    except ValueError as api_err:
+        console.print(f"API Error: {api_err}", style="bold red")
+    except requests.exceptions.RequestException as net_err:
+        console.print(f"Network Error: {net_err}", style="bold red")
+    except Exception as err:
+        console.print(f"Error: {err}", style="bold red")
+        
+    else:
+        # Call the function to display the weather data
+        display_weather(weather_data)
 
 # Main function
 if __name__ == "__main__":
