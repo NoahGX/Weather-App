@@ -58,6 +58,7 @@ def home():
     weather_data = None
     err_message = None
     
+    # Ensure API Key exists in the environment
     if not API_KEY:
         error_message = f"Value Error: API key not found"
         render_template('index.html', error=error_message)
