@@ -32,14 +32,15 @@ def display_weather(weather_data):
     dateTime = dateTime + dt.timedelta(seconds=weather_data['timezone'])
 
     # Convert datetime objects to strings
-    date = dateTime.strftime("%A, %b %-d %Y")
-    time = dateTime.strftime("%I:%M:%S %p")
+    local_date = dateTime.strftime("%A, %b %-d %Y")
+    local_time = dateTime.strftime("%I:%M:%S %p")
 
     # Extract details from the weather data
     weather_data = {
         'city': weather_data['name'],
-        'date': date,
-        'time': time,
+        'country': weather_data['sys']['country'],
+        'local_date': local_date,
+        'local_time': local_time,
         'weather': weather_data['weather'][0]['main'],
         'description': weather_data['weather'][0]['description'],
         'temperature': round(weather_data['main']['temp']),

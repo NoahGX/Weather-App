@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <title>Weather App</title>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            width: 30%;
+            padding: 40px;
+            box-shadow: 0px 0px 10px 10px;
+        }
         .info-button {
             background-color: cyan;
             cursor: pointer;
@@ -12,34 +22,37 @@
     </style>
 </head>
 <body>
-    <h1>Simple Weather App</h1>
-    <form method="post">
-        <label>Enter City Name: <input type="text" name="city"></label>
-        <button type="submit"><strong>Get Weather</strong></button>
-    </form>
-    <button class="info-button" onclick="showInfo()"><strong>INFO</strong></button>
-    <script>
-        function showInfo() {
-            alert(`About PM Accelerator:
-PM Accelerator is the premier AI learning and development hub, featuring award-winning AI products and mentors from top-tier companies such as Google, Meta, and Apple. We offer a dynamic AI PM Bootcamp, designed to empower the next generation of AI professionals through hands-on experience, mentorship, and real-world projects.`);
-        }
-    </script>
-    {% if data %}
-        <h2>City: {{data.city}}</h2>
-        <p><strong>Date:</strong> <i>{{data.date}}</i></p>
-        <p><strong>Time:</strong> <i>{{data.time}}</i></p>
-        <p><strong>Weather:</strong> <i>{{data.weather}}</i></p>
-        <p><strong>Description:</strong> <i>{{data.description}}</i></p>
-        <p><strong>Temperature:</strong> <i>{{data.temperature}} ºF</i></p>
-        <p><strong>Feels Like:</strong> <i>{{data.feels_like}} ºF</i></p>
-        <p><strong>Pressure:</strong> <i>{{data.pressure}} hPa</i></p>
-        <p><strong>Humidity:</strong> <i>{{data.humidity}} %</i></p>
-        <p><strong>Visibility:</strong> <i>{{data.visibility}} m</i></p>
-        <p><strong>Wind Speed:</strong> <i>{{data.wind_speed}} mph</i></p>
-    {% elif error %}
-        <p style="color: red; font-weight: bolder;">
-            {{error}}
-        </p>
-    {% endif %}
+    <div class ="container">
+        <h1>Simple Weather App</h1>
+        <form method="post">
+            <label>Enter City Name: <input type="text" name="city"></label>
+            <button type="submit"><strong>Get Weather</strong></button>
+        </form>
+        <button class="info-button" onclick="showInfo()"><strong>INFO</strong></button>
+        <script>
+            function showInfo() {
+                alert(`About PM Accelerator:
+    PM Accelerator is the premier AI learning and development hub, featuring award-winning AI products and mentors from top-tier companies such as Google, Meta, and Apple. We offer a dynamic AI PM Bootcamp, designed to empower the next generation of AI professionals through hands-on experience, mentorship, and real-world projects.`);
+            }
+        </script>
+        {% if data %}
+            <h2>City: {{data.city}}</h2>
+            <p><strong>Country Code:</strong> <i>{{data.country}}</i></p>
+            <p><strong>Local Date:</strong> <i>{{data.local_date}}</i></p>
+            <p><strong>Local Time:</strong> <i>{{data.local_time}}</i></p>
+            <p><strong>Weather:</strong> <i>{{data.weather}}</i></p>
+            <p><strong>Description:</strong> <i>{{data.description}}</i></p>
+            <p><strong>Temperature:</strong> <i>{{data.temperature}} ºF</i></p>
+            <p><strong>Feels Like:</strong> <i>{{data.feels_like}} ºF</i></p>
+            <p><strong>Pressure:</strong> <i>{{data.pressure}} hPa</i></p>
+            <p><strong>Humidity:</strong> <i>{{data.humidity}} %</i></p>
+            <p><strong>Visibility:</strong> <i>{{data.visibility}} m</i></p>
+            <p><strong>Wind Speed:</strong> <i>{{data.wind_speed}} mph</i></p>
+        {% elif error %}
+            <p style="color: red; font-weight: bolder;">
+                {{error}}
+            </p>
+        {% endif %}
+    </div>
 </body>
 </html>
