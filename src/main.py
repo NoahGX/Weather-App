@@ -60,12 +60,18 @@ def home():
     
     # Ensure API Key exists in the environment
     if not API_KEY:
-        error_message = f"Value Error: API key not found"
-        render_template('index.html', error=error_message)
+        err_message = f"Value Error: API key not found"
+        render_template('index.html', error=err_message)
     
     # Check if request method is POST
     if request.method == 'POST':
         user_input = request.form['city']
+
+        # Check is user input is empty
+        if not user_input:
+            err_message = f"Error: no name entered"
+            return render_template('index.html', error=err_message)
+        
         try:
             # Fetch weather data for the given city using the API Key
             weather_data = fetch_weather(API_KEY, user_input)
@@ -73,17 +79,21 @@ def home():
             # Handle Errors that may occur
             if weather_data['cod'] == '404':
                 err_message = f"API Error: {weather_data['message']}"
+                return render_template('index.html', error=err_message)
             else:
                 # If there are no errors, display the weather data
                 weather_data = display_weather(weather_data)
+                return render_template('index.html', data=weather_data)
         
         # Handle Exceptions that may occur
         except requests.exceptions.RequestException as net_err:
             err_message = f"Network Error: {net_err}"
+            return render_template('index.html', error=err_message)
         except Exception as err:
             err_message = f"Error: {err}"
-    
-    return render_template('index.html', data=weather_data, error=err_message)
+            return render_template('index.html', error=err_message)
+        
+    return render_template('index.html')
 
 # Main function
 if __name__ == "__main__":

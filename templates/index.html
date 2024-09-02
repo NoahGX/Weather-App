@@ -32,7 +32,7 @@
         <script>
             function showInfo() {
                 alert(`About PM Accelerator:
-    PM Accelerator is the premier AI learning and development hub, featuring award-winning AI products and mentors from top-tier companies such as Google, Meta, and Apple. We offer a dynamic AI PM Bootcamp, designed to empower the next generation of AI professionals through hands-on experience, mentorship, and real-world projects.`);
+        PM Accelerator is the premier AI learning and development hub, featuring award-winning AI products and mentors from top-tier companies such as Google, Meta, and Apple. We offer a dynamic AI PM Bootcamp, designed to empower the next generation of AI professionals through hands-on experience, mentorship, and real-world projects.`);
             }
         </script>
         {% if data %}
@@ -50,8 +50,7 @@
             <p><strong>Wind Speed:</strong> <i>{{data.wind_speed}} mph</i></p>
         {% elif error %}
             <p style="color: red; font-weight: bolder;">
-                {{error}}
-            </p>
+                {{error}}</p>
         {% endif %}
     </div>
 </body>
