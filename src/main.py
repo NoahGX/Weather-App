@@ -1,7 +1,14 @@
+import os
 import requests
 import datetime as dt
+from dotenv import load_dotenv
 from flask import Flask, render_template, request
 
+# Use environment variable for API Key storage
+load_dotenv(dotenv_path='../config/.env')
+API_KEY = os.getenv('API_KEY')
+
+# Intitialize flask app
 app = Flask(__name__, template_folder='../templates')
 
 # Define function to fetch weather data from the API
@@ -49,13 +56,10 @@ def display_weather(weather_data):
 def home():
     weather_data = None
     err_message = None
-    try:
-        # Read the API Key from a text file
-        with open("../data/api.txt", "r") as file:
-            API_KEY = file.read()
-    except FileNotFoundError as file_err:
-        # Return an error if the file is not found
-        err_message = f"File Error: {file_err}"
+    
+    if not API_KEY:
+        error_message = f"Value Error: API key not found"
+        render_template('index.html', error=error_message)
     
     # Check if request method is POST
     if request.method == 'POST':
