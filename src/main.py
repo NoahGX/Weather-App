@@ -53,7 +53,6 @@ def display_weather(weather_data):
     console.print(f"\tHumidity: {humidity} %")
     console.print(f"\tVisibility: {visibility} m")
     console.print(f"\tWind Speed: {wind_speed} mph")
-    console.print(table)
 
 # Define main function
 def main():
