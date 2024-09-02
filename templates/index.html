@@ -6,5 +6,26 @@
 </head>
 <body>
     <h1>Simple Weather App</h1>
+    <form method="post">
+        <label>Enter City Name: <input type="text" name="city"></label>
+        <button type="submit">Get Weather</button>
+    </form>
+    {% if weather_data %}
+        <h2>City: {{weather_data.city}}</h2>
+        <p>Date: {{weather_data.date}}</p>
+        <p>Time: {{weather_data.time}}</p>
+        <p>Weather: {{weather_data.weather}}</p>
+        <p>Description: {{weather_data.description}}</p>
+        <p>Temperature: {{weather_data.temperature}}</p>
+        <p>Feels Like: {{weather_data.feels_like}}</p>
+        <p>Pressure: {{weather_data.pressure}}</p>
+        <p>Humidity: {{weather_data.humidity}}</p>
+        <p>Visibility: {{weather_data.visibility}}</p>
+        <p>Wind Speed: {{weather_data.wind_speed}}</p>
+    {% elif error %}
+        <p style="color: red;", >
+            {{ error }}
+        </p>
+    {% endif %}
 </body>
 </html>
