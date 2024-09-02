@@ -44,7 +44,7 @@ def display_weather(weather_data):
     }
     return weather_data
 
-# Define home page
+# Define flask route for home page
 @app.route('/', methods=['GET', 'POST'])
 def home():
     weather_data = None
