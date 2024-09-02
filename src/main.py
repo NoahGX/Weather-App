@@ -1,11 +1,8 @@
 import requests
-from rich.console import Console
-from rich.table import Table
-from rich import box
 import datetime as dt
+from flask import Flask, render_template, request, flash, redirect, url_for
 
-# Initialize console
-console = Console()
+app = Flask(__name__, template_folder='../templates')
 
 # Define function to fetch weather data from the API
 def fetch_weather(API_KEY, user_input):
@@ -32,66 +29,60 @@ def display_weather(weather_data):
     time = dateTime.strftime("%I:%M:%S %p")
 
     # Extract details from the weather data
-    city = weather_data['name']
-    weather = weather_data['weather'][0]['main']
-    description = weather_data['weather'][0]['description']
-    temperature = round(weather_data['main']['temp'])
-    feels_like = round(weather_data['main']['feels_like'])
-    pressure = weather_data['main']['pressure']
-    humidity = weather_data['main']['humidity']
-    visibility = weather_data['visibility']
-    wind_speed = weather_data['wind']['speed']
+    weather_data = {
+        'city': weather_data['name'],
+        'date': date,
+        'time': time,
+        'weather': weather_data['weather'][0]['main'],
+        'description': weather_data['weather'][0]['description'],
+        'temperature': round(weather_data['main']['temp']),
+        'feels_like': round(weather_data['main']['feels_like']),
+        'pressure': weather_data['main']['pressure'],
+        'humidity': weather_data['main']['humidity'],
+        'visibility': weather_data['visibility'],
+        'wind_speed': weather_data['wind']['speed']
+    }
+    return weather_data
 
-    # Print the formatted weather data
-    console.print(f"Fetching and Displaying Data...", style="bold green")
-    console.print(f"[bold]{city}[/bold] Local Date: [bold magenta]{date}[/bold magenta]")
-    console.print(f"[bold]{city}[/bold] Local Time: [bold magenta]{time}[/bold magenta]")
-    console.print(f"\tCurrent Weather: "f"[bold cyan]{weather}[/bold cyan]")
-    console.print(f"\tDescription: [bold cyan]{description}[/bold cyan]")
-    console.print(f"\tTemperature: {temperature} ºF")
-    console.print(f"\tIt Feels Like: {feels_like} ºF")
-    console.print(f"\tPressure: {pressure} hPa")
-    console.print(f"\tHumidity: {humidity} %")
-    console.print(f"\tVisibility: {visibility} m")
-    console.print(f"\tWind Speed: {wind_speed} mph")
-
-# Define main function
-def main():
+# Define home page
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    weather_data = None
+    error_message = None
     try:
         # Read the API Key from a text file
         with open("../data/api.txt", "r") as file:
             API_KEY = file.read()
     except FileNotFoundError as file_err:
-        # Return an error if the file does not exist
-        console.print(f"File Error: {file_err}", style="bold red")
-        return
+        # Return an error if the file is not found
+        error_message = f"File Error: {file_err}"
+        return render_template('index.html', error=error_message)
     
-    while True:
-        # Prompt the user to input a city name
-        user_input = input("Enter City Name (type 'exit' to quit): ")
-
-        if user_input.lower() == "exit":
-            console.print("Terminating Program... Goodbye!", style="bold green")
-            break
-        
+    if request.method == 'POST':
+        user_input = request.form['city']
         try:
             # Fetch weather data for the given city using the API Key
             weather_data = fetch_weather(API_KEY, user_input)
-            
+
             # Handle Errors and Exceptions that may occur
             if weather_data['cod'] == '404':
-                raise ValueError(weather_data['message'])
-        except ValueError as api_err:
-            console.print(f"API Error: {api_err}", style="bold red")
+                error_message = f"API Error: {weather_data['message']}"
+                return render_template('index.html', error=error_message)
+            else:
+                # If there are no errors, display the weather data
+                weather_data = display_weather(weather_data)
+                return render_template('index.html', weather_data=weather_data)
+
         except requests.exceptions.RequestException as net_err:
-            console.print(f"Network Error: {net_err}", style="bold red")
+            error_message = f"Network Error: {net_err}"
+            return render_template('index.html', error=error_message)
         except Exception as err:
-            console.print(f"Error: {err}", style="bold red")
+            error_message = f"Error: {err}"
+            return render_template('index.html', error=error_message)
         
-        else:
-            # If there are no errors, display the weather data
-            display_weather(weather_data)
+    # return render_template('index.html', weather_data=weather_data, error=error_message)
+    return render_template('index.html')
 
 # Main function
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
