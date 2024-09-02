@@ -1,6 +1,6 @@
 import requests
 import datetime as dt
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request
 
 app = Flask(__name__, template_folder='../templates')
 
@@ -81,4 +81,4 @@ def home():
 
 # Main function
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
