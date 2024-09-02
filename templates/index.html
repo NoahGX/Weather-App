@@ -12,19 +12,18 @@
     </form>
     {% if weather_data %}
         <h2>City: {{weather_data.city}}</h2>
-        <p>Date: {{weather_data.date}}</p>
-        <p>Time: {{weather_data.time}}</p>
-        <p>Weather: {{weather_data.weather}}</p>
-        <p>Description: {{weather_data.description}}</p>
-        <p>Temperature: {{weather_data.temperature}}</p>
-        <p>Feels Like: {{weather_data.feels_like}}</p>
-        <p>Pressure: {{weather_data.pressure}}</p>
-        <p>Humidity: {{weather_data.humidity}}</p>
-        <p>Visibility: {{weather_data.visibility}}</p>
-        <p>Wind Speed: {{weather_data.wind_speed}}</p>
+        <p><strong>Date:</strong> <i>{{weather_data.date}}</i></p>
+        <p><strong>Weather:</strong> <i>{{weather_data.weather}}</i></p>
+        <p><strong>Description:</strong> <i>{{weather_data.description}}</i></p>
+        <p><strong>Temperature:</strong> <i>{{weather_data.temperature}}</i></p>
+        <p><strong>Feels Like:</strong> <i>{{weather_data.feels_like}}</i></p>
+        <p><strong>Pressure:</strong> <i>{{weather_data.pressure}}</i></p>
+        <p><strong>Humidity:</strong> <i>{{weather_data.humidity}}</i></p>
+        <p><strong>Visibility:</strong> <i>{{weather_data.visibility}}</i></p>
+        <p><strong>Wind Speed:</strong> <i>{{weather_data.wind_speed}}</i></p>
     {% elif error %}
-        <p style="color: red;", >
-            {{ error }}
+        <p style="color: red; font-weight: bolder;", >
+            {{error}}
         </p>
     {% endif %}
 </body>
