@@ -1,7 +1,7 @@
 # Weather-App
 
 ## Overview
-This project demonstrates the implementation of a simple weather appliction using Python. In addition to using Flask for the backend development of the application, we used HTML and CSS for the frontend development. The goal is to fetch and display real-time weather information for specified cities using the OpenWeatherMap API.
+This project demonstrates the implementation of a simple weather appliction using Python. In addition to using Flask for the backend development of the application, HTML and CSS is used for the frontend development. The goal is to fetch and display real-time weather information for specified cities using the OpenWeatherMap API.
 
 ## Features
 - Fetches real-time data from the OpenWeatherMap API
